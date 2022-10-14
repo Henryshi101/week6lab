@@ -15,9 +15,7 @@
         <h1>Register</h1>
         <form action="shoppingList" method="POST">
             <input type="text" name="username">
-            <input type="hidden" name="action" value="register"><br>
-            <input type="submit" value="Register">
-                        <a href="shoppingList">shopping</a>     
+            <input type="submit" name= "action" value="register">
 
         </form>
         <p>${hello}</p>
