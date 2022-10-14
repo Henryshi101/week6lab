@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Shopping List</h1>
-        <p>Hello </p>
+        <p>Hello ${username}</p>
         <a href="shoppingList.jsp?action=logout">logout</a>
         <form action="" method="POST">
             <h2>Add item</h2>

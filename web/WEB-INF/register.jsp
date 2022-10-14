@@ -12,11 +12,14 @@
         <title>Register</title>
     </head>
     <body>
-        <h1>Shopping List</h1>
-        <form action="ShoppingList" method="POST">
+        <h1>Register</h1>
+        <form action="shoppingList" method="POST">
             <input type="text" name="username">
             <input type="hidden" name="action" value="register"><br>
-            <input type="submit" value="Register">           
+            <input type="submit" value="Register">
+                        <a href="shoppingList">shopping</a>     
+
         </form>
+        <p>${hello}</p>
     </body>
 </html>
