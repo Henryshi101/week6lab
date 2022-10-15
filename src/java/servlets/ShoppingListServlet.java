@@ -6,7 +6,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +18,8 @@ import java.util.ArrayList;
  * @author 14686
  */
 public class ShoppingListServlet extends HttpServlet {
+
+    ArrayList<String> shoppingItems = new ArrayList<>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -33,38 +34,54 @@ public class ShoppingListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ArrayList<String> items = new ArrayList<>();
-
         HttpSession session = request.getSession();
-        session.getAttribute("username");
+        session.setAttribute("shoppingItems", shoppingItems);
+        String url = "";
         String username = request.getParameter("username");
-        String item = request.getParameter("itemIn");
-        items.add(item);
-
-        session.setAttribute("username", username);
+        String shoppingItem = request.getParameter("itemIn");
 
         String op = request.getParameter("action");
         switch (op) {
 
+            case "register":
+                if (username != null && !username.isEmpty()) {
+
+                    session.setAttribute("username", "hello " + username + "!");
+                    shoppingItems.clear();
+                    session.removeAttribute("shoppingItems");
+
+                    url = "/WEB-INF/shoppingList.jsp";
+                } else {
+                    url = "/WEB-INF/register.jsp";
+                }
+                break;
+
             case "add":
-                items.add(request.getParameter("itemIn"));
-
-                request.setAttribute("username", username);
-
-                session.setAttribute("item", items.get(0));
-
+                if (shoppingItem != null && !shoppingItem.isEmpty()) {
+                    shoppingItems.add(shoppingItem);
+                    session.setAttribute("shoppingItem", shoppingItems.get(0));
+                    url = "/WEB-INF/shoppingList.jsp";
+                } else {
+                    url = "/WEB-INF/shoppingList.jsp";
+                }
                 break;
+
             case "delete":
-                session.removeAttribute("item");
+                shoppingItems.remove(0);
+                session.removeAttribute("shoppingItem");
+                url = "/WEB-INF/shoppingList.jsp";
                 break;
+
+            case "logout":
+                session.invalidate();
+                url = "/WEB-INF/register.jsp";
+                break;
+
             default:
                 break;
 
         }
-//        for(int i=0;i<= items.size();i++){
-//                session.setAttribute("test", items.get(i));
-//                session.setAttribute("item", items.get(i));}
-        getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher(url).forward(request, response);
 
     }
 
